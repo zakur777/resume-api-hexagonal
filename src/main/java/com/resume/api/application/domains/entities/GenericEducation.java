@@ -1,5 +1,6 @@
 package com.resume.api.application.domains.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 
 public class GenericEducation {
@@ -7,8 +8,13 @@ public class GenericEducation {
   private String institution;
   private String degree;
   private String description;
+
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate startDate;
+
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate endaDate;
+
   private Long resumeId;
 
   public String getInstitution() {
