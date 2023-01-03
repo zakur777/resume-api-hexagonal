@@ -1,5 +1,7 @@
 package com.resume.api.infrastructure.error;
 
+import com.resume.api.application.services.exceptions.certificate.CertificateNotFoundException;
+import com.resume.api.application.services.exceptions.certificate.DuplicateCertificateException;
 import com.resume.api.application.services.exceptions.commons.ErrorInfo;
 import com.resume.api.application.services.exceptions.skill.DuplicateSkillException;
 import com.resume.api.application.services.exceptions.skill.SkillNotFoundException;
@@ -54,6 +56,24 @@ public class EndpointErrorHandler {
   @ExceptionHandler(WorkExperienceNotFoundException.class)
   public ResponseEntity<ErrorInfo> handleNotFoundWorkExperienceException(
       HttpServletRequest request, WorkExperienceNotFoundException ex, Locale locale) {
+    ErrorInfo response = new ErrorInfo();
+    response.setUrl(request.getRequestURL().toString());
+    response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));
+    return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(DuplicateCertificateException.class)
+  public ResponseEntity<ErrorInfo> handleDuplicateCertificateException(
+      HttpServletRequest request, DuplicateCertificateException ex, Locale locale) {
+    ErrorInfo response = new ErrorInfo();
+    response.setUrl(request.getRequestURL().toString());
+    response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));
+    return new ResponseEntity<>(response, HttpStatus.IM_USED);
+  }
+
+  @ExceptionHandler(CertificateNotFoundException.class)
+  public ResponseEntity<ErrorInfo> handleNotFoundCertificateException(
+      HttpServletRequest request, CertificateNotFoundException ex, Locale locale) {
     ErrorInfo response = new ErrorInfo();
     response.setUrl(request.getRequestURL().toString());
     response.setMessage(messageSource.getMessage(ex.getMessage(), ex.getArgs(), locale));
